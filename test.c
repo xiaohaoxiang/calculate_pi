@@ -21,7 +21,6 @@ int main(int argc, char const *argv[])
         testcl.cases = (testcase *)malloc(capacity * sizeof(testcase));
         for (;;)
         {
-            printf("reading line %llu", testcl.n);
             if (scanf("%d%llu%llu%llu \n", &model, &thread_count, &problem_size, &repeat_time) != 4)
             {
                 break;
@@ -49,6 +48,7 @@ int main(int argc, char const *argv[])
     testcase_list_init(&testcl);
     test_all(&testcl);
     output_rawdata(&testcl);
+    printf("\n\n--------------------------\n\n");
     output_result(&testcl);
     testcase_list_release(&testcl);
     return 0;
@@ -56,7 +56,8 @@ int main(int argc, char const *argv[])
 
 void output_rawdata(testcase_list *tcl)
 {
-    FILE *os = get_outfile("rawdata", ".txt");
+    // FILE *os = get_outfile("rawdata", ".txt");
+    FILE *os = stdout;
     fprintf(os, "%-6s %-5s %-7s %-16s %-7s %s\n", "num", "model", "threads", "problem_size", "repeat",
             "(time/ms, result)");
     for (size_type i = 0; i < tcl->n; ++i, fputc('\n', os))
@@ -73,7 +74,8 @@ void output_rawdata(testcase_list *tcl)
 
 void output_result(testcase_list *tcl)
 {
-    FILE *os = get_outfile("result", ".txt");
+    // FILE *os = get_outfile("result", ".txt");
+    FILE *os = stdout;
     fprintf(os, "%-6s %-5s %-7s %-16s %-7s %-12s  %-22s %s\n", "num", "model", "threads", "problem_size", "repeat",
             "mean_time/ms", "mean_value", "mean_precision");
     for (size_type i = 0; i < tcl->n; ++i, fputc('\n', os))
@@ -97,9 +99,7 @@ void test_all(testcase_list *tcl)
 {
     for (size_type i = 0; i < tcl->n; ++i)
     {
-        printf("case %llu / %llu start\n", i + 1, tcl->n);
         test_single(tcl->cases + i);
-        printf("case %llu / %llu finish\n", i + 1, tcl->n);
     }
 }
 
@@ -107,13 +107,9 @@ void test_single(testcase *const tc)
 {
     for (size_type i = 0; i < tc->repeat_times; ++i)
     {
-        printf("repeat %llu / %llu start, model:%d problem_size:%llu thread_count:%llu\n", i + 1, tc->repeat_times,
-               tc->model, tc->problem_size, tc->thread_count);
         timepoint t0 = time_now();
         tc->result[i] = functions[tc->model](tc->problem_size, tc->thread_count);
         tc->time[i] = time_now() - t0;
-        printf("repeat %llu / %llu finish, time:%llums\n", i + 1, tc->repeat_times,
-               (unsigned long long)((tc->time[i] + 0.5) / 10.0));
     }
 }
 
