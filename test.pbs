@@ -6,4 +6,4 @@
 #PBS -e /data/home/T3018216241/data/calc_pi_xhx.err
 
 cd /data/home/T3018216241/calculate_pi
-./test < small
+./data_generator | ./test
