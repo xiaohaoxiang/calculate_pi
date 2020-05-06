@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
         testcl.cases = (testcase *)malloc(capacity * sizeof(testcase));
         for (;;)
         {
+            printf("reading line %llu", testcl.n);
             if (scanf("%d%llu%llu%llu \n", &model, &thread_count, &problem_size, &repeat_time) != 4)
             {
                 break;
@@ -28,7 +29,9 @@ int main(int argc, char const *argv[])
             else if (!(0 <= model && model <= MAX_MODELS) || !(0 < thread_count && thread_count <= MAX_THREADS) ||
                      problem_size < thread_count || repeat_time == 0)
             {
-                break;
+                fprintf(stderr, "invalid line %llu: %d %llu %llu %llu", testcl.n, model, thread_count, problem_size,
+                        repeat_time);
+                return -1;
             }
 
             testcl.cases[testcl.n].repeat_times = repeat_time;
@@ -39,7 +42,7 @@ int main(int argc, char const *argv[])
             if (++testcl.n == capacity)
             {
                 capacity <<= 1;
-                testcl.cases = realloc(testcl.cases, capacity);
+                testcl.cases = (testcase *)realloc(testcl.cases, capacity * sizeof(testcase));
             }
         }
     }
@@ -94,7 +97,9 @@ void test_all(testcase_list *tcl)
 {
     for (size_type i = 0; i < tcl->n; ++i)
     {
+        printf("case %llu / %llu start\n", i + 1, tcl->n);
         test_single(tcl->cases + i);
+        printf("case %llu / %llu finish\n", i + 1, tcl->n);
     }
 }
 
@@ -102,9 +107,13 @@ void test_single(testcase *const tc)
 {
     for (size_type i = 0; i < tc->repeat_times; ++i)
     {
+        printf("repeat %llu / %llu start, model:%d problem_size:%llu thread_count:%llu\n", i + 1, tc->repeat_times,
+               tc->model, tc->problem_size, tc->thread_count);
         timepoint t0 = time_now();
-        tc->result[i] = functions[tc->model](tc->problem_size, tc->thread_count);
+        // tc->result[i] = functions[tc->model](tc->problem_size, tc->thread_count);
         tc->time[i] = time_now() - t0;
+        printf("repeat %llu / %llu finish, time:%llums\n", i + 1, tc->repeat_times,
+               (unsigned long long)((tc->time[i] + 0.5) / 10.0));
     }
 }
 
