@@ -110,7 +110,7 @@ void test_single(testcase *const tc)
         printf("repeat %llu / %llu start, model:%d problem_size:%llu thread_count:%llu\n", i + 1, tc->repeat_times,
                tc->model, tc->problem_size, tc->thread_count);
         timepoint t0 = time_now();
-        // tc->result[i] = functions[tc->model](tc->problem_size, tc->thread_count);
+        tc->result[i] = functions[tc->model](tc->problem_size, tc->thread_count);
         tc->time[i] = time_now() - t0;
         printf("repeat %llu / %llu finish, time:%llums\n", i + 1, tc->repeat_times,
                (unsigned long long)((tc->time[i] + 0.5) / 10.0));
