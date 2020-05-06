@@ -1,4 +1,4 @@
-all : data_generator test data_dir
+all : data_generator test
 .PHONY : all data
 data_generator : cpuinfo.o data_generator.o
 	cc -o data_generator cpuinfo.o data_generator.o -O3 -std=c11
@@ -20,8 +20,6 @@ timer.o : timer.c timer.h
 	cc -c timer.c -O3 -std=c11
 rand.o : rand.c rand.h
 	cc -c rand.c -O3 -std=c11
-data_dir : 
-	-mkdir data
 
 .PHONY : clean
 clean :
