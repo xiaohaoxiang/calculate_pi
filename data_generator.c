@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
 
     for (int mod = 0; mod < MAX_MODELS; ++mod)
     {
-        for (unsigned hc = 1; hc <= max_hc; hc += (hc << 1) < max_hc ? 1 : 2)
+        for (unsigned hc = 1; hc <= max_hc; (hc += (hc << 1) < max_hc ? 1 : 2), putchar('\n'))
         {
             printf("%d %u %llu %d", mod, hc, MAX_THREADS * MAX_THREADS, repeat);
         }
