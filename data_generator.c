@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     {
         for (unsigned hc = 1; hc <= max_hc; (hc += (hc << 1) < max_hc ? 1 : 2), putchar('\n'))
         {
-            printf("%d %u %llu %d", mod, hc, MAX_THREADS * MAX_THREADS, repeat);
+            printf("%d %u %llu %d", mod, hc, mod == 1 ? 1ULL << 28 : 1ULL << 32, repeat);
         }
     }
     return 0;

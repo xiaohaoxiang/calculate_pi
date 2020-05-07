@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -N calc_pi_xhx
 #PBS -q qstudent
-#PBS -l nodes=1:ppn=1
+#PBS -l nodes=1:ppn=4
 #PBS -o /data/home/T3018216241/data/calc_pi_xhx.out
 #PBS -e /data/home/T3018216241/data/calc_pi_xhx.err
 

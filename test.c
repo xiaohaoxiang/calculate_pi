@@ -56,31 +56,26 @@ int main(int argc, char const *argv[])
 
 void output_rawdata(testcase_list *tcl)
 {
-    // FILE *os = get_outfile("rawdata", ".txt");
-    FILE *os = stdout;
-    fprintf(os, "%-6s %-5s %-7s %-16s %-7s %s\n", "num", "model", "threads", "problem_size", "repeat",
+    printf( "%-6s %-5s %-7s %-16s %-7s %s\n", "num", "model", "threads", "problem_size", "repeat",
             "(time/ms, result)");
     for (size_type i = 0; i < tcl->n; ++i, fputc('\n', os))
     {
-        fprintf(os, "%-6llu %-5d %-7llu %-16llu %-8llu ", i, tcl->cases[i].model, tcl->cases[i].thread_count,
+        printf( "%-6llu %-5d %-7llu %-16llu %-8llu ", i, tcl->cases[i].model, tcl->cases[i].thread_count,
                 tcl->cases[i].problem_size, tcl->cases[i].repeat_times);
         for (size_type j = 0; j < tcl->cases[i].repeat_times; ++j)
         {
-            fprintf(os, " (%.1f, %.20f)", tcl->cases[i].time[j] / 10.0, tcl->cases[i].result[j]);
+            printf( " (%.1f, %.20f)", tcl->cases[i].time[j] / 10.0, tcl->cases[i].result[j]);
         }
     }
-    fclose(os);
 }
 
 void output_result(testcase_list *tcl)
 {
-    // FILE *os = get_outfile("result", ".txt");
-    FILE *os = stdout;
-    fprintf(os, "%-6s %-5s %-7s %-16s %-7s %-12s  %-22s %s\n", "num", "model", "threads", "problem_size", "repeat",
+    printf( "%-6s %-5s %-7s %-16s %-7s %-12s  %-22s %s\n", "num", "model", "threads", "problem_size", "repeat",
             "mean_time/ms", "mean_value", "mean_precision");
     for (size_type i = 0; i < tcl->n; ++i, fputc('\n', os))
     {
-        fprintf(os, "%-6llu %-5d %-7llu %-16llu %-2llu ", i, tcl->cases[i].model, tcl->cases[i].thread_count,
+        printf( "%-6llu %-5d %-7llu %-16llu %-2llu ", i, tcl->cases[i].model, tcl->cases[i].thread_count,
                 tcl->cases[i].problem_size, tcl->cases[i].repeat_times);
         size_type sumt = 0;
         value_type sumv = 0;
@@ -90,9 +85,8 @@ void output_result(testcase_list *tcl)
             sumv += tcl->cases[i].result[j];
         }
         sumv /= tcl->cases[i].repeat_times;
-        fprintf(os, "        %6.2f    %.20f    %d", sumt / (10.0 * tcl->cases[i].repeat_times), sumv, same_bits(sumv));
+        printf( "        %6.2f    %.20f    %d", sumt / (10.0 * tcl->cases[i].repeat_times), sumv, same_bits(sumv));
     }
-    fclose(os);
 }
 
 void test_all(testcase_list *tcl)
