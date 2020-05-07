@@ -13,6 +13,7 @@ value_type calc_integral(const size_type N, const size_type HC)
     value_type res = 0;
     pthread_mutex_t mtx;
     pthread_mutex_init(&mtx, NULL);
+
     const size_type d = (N + HC - 1) / HC;
     data->N1 = 1.0 / N;
     for (size_type i = 0; i < HC; ++i)
